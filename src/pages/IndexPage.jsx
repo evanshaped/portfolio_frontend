@@ -1,11 +1,17 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
+import axiosServices from "../services/axiosServices";
 
 export default function IndexPage() {
     const [myDisplayVar, setMyDisplayVar] = useState("Default")
 
     const handleFetchVal = () => {
-        setMyDisplayVar("new val")
+        axiosServices.get('/core-api/projects/').then((response) => {
+            console.log(response)
+            setMyDisplayVar(response.data[0]['title'])
+        }).catch((error) => {
+            console.log(error)
+        })
     }
 
     return (
