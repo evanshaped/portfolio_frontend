@@ -11,7 +11,7 @@ export default function Header() {
   
     return (
         <AppBar 
-            classname="top-nav-appbar"
+            className="top-nav-appbar"
             position="static"
             sx={{
                 width: '100%',
@@ -23,7 +23,7 @@ export default function Header() {
             }}
         >
             <Toolbar 
-                classname="top-nav-toolbar"
+                className="top-nav-toolbar"
                 disableGutters 
                 sx={{ 
                     display: 'flex', 

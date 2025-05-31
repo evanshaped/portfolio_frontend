@@ -3,7 +3,7 @@ import { Box, Typography } from "@mui/material";
 export default function Account() {
     return (
         <Box
-            classname='account-page-box'
+            className='account-page-box'
             sx={{
                 borderWidth: 2,
                 borderStyle: 'dashed',

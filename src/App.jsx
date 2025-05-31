@@ -10,13 +10,13 @@ import Account from './pages/Account'
 
 function App() {
   return (
-    <Box classname="app" sx={{
+    <Box className="app" sx={{
       backgroundColor: '#b293cf',
       width: "100vw",
       height: "100vh",
     }}>
       <Box 
-        classname='top-nav-box'
+        className='top-nav-box'
         sx={{
           px: 1,
           pt: 2,

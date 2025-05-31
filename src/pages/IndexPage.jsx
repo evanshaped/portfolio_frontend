@@ -16,7 +16,7 @@ export default function IndexPage() {
 
     return (
         <Box
-            classname='index-page-box'
+            className='index-page-box'
             display='flex'
             sx={{
                 p: 2,
