@@ -1,34 +1,45 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import { CssBaseline, ThemeProvider, Box, Container, Typography, Grid, AppBar, Toolbar, Button } from '@mui/material'
+import { Route, Routes } from 'react-router'
+import Header from './components/Header'
+import Footer from './components/Footer'
+import Home from './pages/Home'
+import About from './pages/About'
+import IndexPage from './pages/IndexPage'
+import Account from './pages/Account'
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <Box classname="app" sx={{
+      backgroundColor: 'green',
+      width: "100vw",
+      height: "100vh",
+    }}>
+      <Box 
+        classname='top-nav-box'
+        sx={{
+          px: 1,
+          pt: 2,
+          pb: 1,
+        }}
+      >
+        <Header />
+      </Box>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/index" element={<IndexPage />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/account" element={<Account />} />
+      </Routes>
+      <Box>
+        <Typography variant="h1">my text</Typography>
+        <Button>button text</Button>
+      </Box>
+      <Box>
+        <Typography variant="h2">Text here</Typography>
+        <Typography vairant="h3">More text here</Typography>
+      </Box>
+    </Box>
   )
 }
 
