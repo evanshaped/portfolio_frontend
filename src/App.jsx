@@ -11,7 +11,7 @@ import Account from './pages/Account'
 function App() {
   return (
     <Box classname="app" sx={{
-      backgroundColor: 'green',
+      backgroundColor: '#b293cf',
       width: "100vw",
       height: "100vh",
     }}>
