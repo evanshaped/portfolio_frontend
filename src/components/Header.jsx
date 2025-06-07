@@ -56,6 +56,18 @@ export default function Header() {
                     >
                     Index
                     </Button>
+
+                    <Button
+                    component={Link}
+                    to="/test-fetch"
+                    startIcon={<ListIcon />}
+                    sx={{
+                        color: 'text.primary',
+                        fontWeight: 400,
+                    }}
+                    >
+                    TestFetch
+                    </Button>
                 </Box>
                 
                 {/* Right-aligned links */}

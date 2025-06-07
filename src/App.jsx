@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import IndexPage from './pages/IndexPage'
 import Account from './pages/Account'
+import TestFetchPage from './pages/TestFetchPage'
 
 function App() {
   return (
@@ -30,15 +31,16 @@ function App() {
         <Route path="/index" element={<IndexPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/account" element={<Account />} />
+        <Route path="/test-fetch" element={<TestFetchPage />} />
       </Routes>
-      <Box>
+      {/* <Box>
         <Typography variant="h1">my text</Typography>
         <Button>button text</Button>
       </Box>
       <Box>
         <Typography variant="h2">Text here</Typography>
         <Typography vairant="h3">More text here</Typography>
-      </Box>
+      </Box> */}
     </Box>
   )
 }
