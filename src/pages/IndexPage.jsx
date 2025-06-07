@@ -4,10 +4,12 @@ import axiosServices from "../services/axiosServices";
 import { BarChart } from '@mui/x-charts/BarChart';
 
 export default function IndexPage() {
-    const [idiomText, setIdiomText] = useState("No idiom found")
-    const [languageText, setLanguageText] = useState("No language found")
-    const [definitionText, setDefinitionText] = useState("No definition found")
-    const [regexText, setRegexText] = useState("No regex found")
+    const [idiomBasicInfo, setIdiomBasicInfo] = useState({
+        idiomText: "No idiom text found",
+        languageText: "No language text found",
+        definitionText: "No definition text found",
+        regexText: "No regex text found",
+    })
 
     const dataset = [
         {
@@ -23,6 +25,15 @@ export default function IndexPage() {
             freq: 0.3,
         },
     ]
+
+    const handleFetchRandomIdiom = () => {
+        axiosServices.get('/idioms-api/idioms/random/').then((response) => {
+            console.log(response)
+            setIdiomBasicInfo(response.data)
+        }).catch((error) => {
+            console.error(error)
+        })
+    }
 
     return (
         <Stack
@@ -44,21 +55,24 @@ export default function IndexPage() {
                     width: '30%',
                 }}
             >
-                <Grid size={12}>
+                <Grid size={9}>
                     <TextField 
                         id='idiom-field'
                         label='Idiom'
-                        value={idiomText}
+                        value={idiomBasicInfo.idiomText}
                         sx={{
                             width: '100%',
                         }}
                     />
                 </Grid>
+                <Grid size={3}>
+                    <Button variant="contained" onClick={handleFetchRandomIdiom}>Random!</Button>
+                </Grid>
                 <Grid size={12}>
                     <TextField
                         id='language-field'
                         label='Language'
-                        value={languageText}
+                        value={idiomBasicInfo.languageText}
                         sx={{
                             width: '100%',
                         }}
@@ -68,7 +82,7 @@ export default function IndexPage() {
                     <TextField
                         id='definition-field'
                         label='Definition'
-                        value={definitionText}
+                        value={idiomBasicInfo.definitionText}
                         sx={{
                             width: '100%',
                         }}
@@ -78,7 +92,7 @@ export default function IndexPage() {
                     <TextField
                         id='regex-field'
                         label='Regular Expression'
-                        value={regexText}
+                        value={idiomBasicInfo.regexText}
                         sx={{
                             width: '100%',
                         }}
