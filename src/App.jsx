@@ -1,5 +1,5 @@
 import './App.css'
-import { CssBaseline, ThemeProvider, Box, Container, Typography, Grid, AppBar, Toolbar, Button } from '@mui/material'
+import { CssBaseline, ThemeProvider, Box, Container, Typography, Grid, AppBar, Toolbar, Button, Stack } from '@mui/material'
 import { Route, Routes } from 'react-router'
 import Header from './components/Header'
 import Footer from './components/Footer'
@@ -16,31 +16,36 @@ function App() {
       width: "100vw",
       height: "100vh",
     }}>
-      <Box 
-        className='top-nav-box'
+      <Stack 
+        direction='column'
+        className='app-layout-stack'
         sx={{
-          px: 1,
-          pt: 2,
-          pb: 1,
+          height: "100%",
         }}
       >
-        <Header />
-      </Box>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/index" element={<IndexPage />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/account" element={<Account />} />
-        <Route path="/test-fetch" element={<TestFetchPage />} />
-      </Routes>
-      {/* <Box>
-        <Typography variant="h1">my text</Typography>
-        <Button>button text</Button>
-      </Box>
-      <Box>
-        <Typography variant="h2">Text here</Typography>
-        <Typography vairant="h3">More text here</Typography>
-      </Box> */}
+        <Box 
+          className='top-nav-box'
+          sx={{
+            px: 1,
+            pt: 2,
+            pb: 1,
+          }}
+        >
+          <Header />
+        </Box>
+        <Box 
+          className='body-content-box'
+          flex='auto'
+        >
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/index" element={<IndexPage />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/account" element={<Account />} />
+            <Route path="/test-fetch" element={<TestFetchPage />} />
+          </Routes>
+        </Box>
+      </Stack>
     </Box>
   )
 }
