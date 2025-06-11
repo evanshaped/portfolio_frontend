@@ -1,0 +1,7 @@
+# Git
+.git
+.gitignore
+.github
+
+node_modules/
+dist/
