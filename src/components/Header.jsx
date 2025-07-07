@@ -5,6 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ListIcon from '@mui/icons-material/List';
 import InfoIcon from '@mui/icons-material/Info';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 
 export default function Header() {
     
@@ -82,6 +83,18 @@ export default function Header() {
                     }}
                     >
                     Account
+                    </Button>
+
+                    <Button
+                    component={Link}
+                    to="/admin/"
+                    startIcon={<DeveloperBoardIcon />}
+                    sx={{
+                        color: 'text.primary',
+                        fontWeight: 400,
+                    }}
+                    >
+                    Admin
                     </Button>
                 </Box>
             </Toolbar>
