@@ -6,7 +6,7 @@ export default function IndexPage() {
     const [myDisplayVar, setMyDisplayVar] = useState("Default")
 
     const handleFetchVal = () => {
-        axiosServices.get('/core-api/projects/').then((response) => {
+        axiosServices.get('/projects/').then((response) => {
             console.log(response)
             if(!Array.isArray(response.data)) {
                 setMyDisplayVar("data is not array")
