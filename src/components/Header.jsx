@@ -86,8 +86,8 @@ export default function Header() {
                     </Button>
 
                     <Button
-                    component={Link}
-                    to="/admin/"
+                    component="a"
+                    href="/admin/"
                     startIcon={<DeveloperBoardIcon />}
                     sx={{
                         color: 'text.primary',
