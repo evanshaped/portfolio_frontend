@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const determineBackendURL = () => {
-    return 'http://localhost:8000'
+    return '/core-api'
 }
 
 const axiosBackendInstance = axios.create({

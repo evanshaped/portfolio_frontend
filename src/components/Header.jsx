@@ -5,6 +5,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import ListIcon from '@mui/icons-material/List';
 import InfoIcon from '@mui/icons-material/Info';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 
 export default function Header() {
     
@@ -34,54 +35,66 @@ export default function Header() {
                 {/* Left-aligned links */}
                 <Box>
                     <Button
-                    component={Link}
-                    to="/"
-                    startIcon={<HomeIcon />}
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 400,
-                    }}
-                    >
-                    Home
+                        component={Link}
+                        to="/"
+                        startIcon={<HomeIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        Home
                     </Button>
                     
                     <Button
-                    component={Link}
-                    to="/index"
-                    startIcon={<ListIcon />}
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 400,
-                    }}
-                    >
-                    Index
+                        component={Link}
+                        to="/index"
+                        startIcon={<ListIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        Index
                     </Button>
                 </Box>
                 
                 {/* Right-aligned links */}
                 <Box>
                     <Button
-                    component={Link}
-                    to="/about"
-                    startIcon={<InfoIcon />}
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 400,
-                    }}
-                    >
-                    About
+                        component={Link}
+                        to="/about"
+                        startIcon={<InfoIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        About
                     </Button>
                     
                     <Button
-                    component={Link}
-                    to="/account"
-                    startIcon={<AccountCircleIcon />}
-                    sx={{
-                        color: 'text.primary',
-                        fontWeight: 400,
-                    }}
-                    >
-                    Account
+                        component={Link}
+                        to="/account"
+                        startIcon={<AccountCircleIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        Account
+                    </Button>
+
+                    <Button
+                        component="a"
+                        href="/admin/"
+                        startIcon={<DeveloperBoardIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        Admin
                     </Button>
                 </Box>
             </Toolbar>
