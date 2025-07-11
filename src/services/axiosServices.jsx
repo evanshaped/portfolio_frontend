@@ -1,15 +1,18 @@
 import axios from 'axios';
 
-const determineBackendURL = () => {
-    return '/core-api'
-}
 
-const axiosBackendInstance = axios.create({
-    baseURL: determineBackendURL(),
+export const axiosInstanceCore = axios.create({
+    baseURL: '/core-api',
     timeout: 1000,
     //headers: {'X-Custom-Header': 'foobar'},
     responseType: 'json',
 
 })
 
-export default axiosBackendInstance;
+export const axiosInstanceIdioms = axios.create({
+    baseURL: '/idioms-api',
+    timeout: 1000,
+    //headers: {'X-Custom-Header': 'foobar'},
+    responseType: 'json',
+
+})

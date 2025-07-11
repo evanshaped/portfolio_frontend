@@ -1,12 +1,12 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
-import axiosServices from "../services/axiosServices";
+import { axiosInstanceCore } from "../services/axiosServices";
 
 export default function IndexPage() {
     const [myDisplayVar, setMyDisplayVar] = useState("Default")
 
     const handleFetchVal = () => {
-        axiosServices.get('/projects/').then((response) => {
+        axiosInstanceCore.get('/projects/').then((response) => {
             console.log(response)
             if(!Array.isArray(response.data)) {
                 setMyDisplayVar("data is not array")
