@@ -10,9 +10,10 @@ export default function SearchPage() {
     const [searchStatus, setSearchStatus] = useState()
     const [isPolling, setIsPolling] = useState(false)
     const pollingRef = useRef(null)
+    const [randomIdiomText, setRandomIdiomText] = useState('default')
+    const [randomIdiomRegex, setRandomIdiomRegex] = useState('default')
 
     const handleMatchPatternInCorpus = () => {
-        // TODO: match post req works! Now store search id and poll for updates to search
         const data = {
             "idiom_pattern": idiomPattern,
             "corpus_id": 1,
@@ -54,6 +55,18 @@ export default function SearchPage() {
         poll()
     }
 
+    const handleFetchRandomIdiom = () => {
+        axiosInstanceIdioms.get('idioms/random/').then((response) => {
+            console.log(response)
+            setRandomIdiomText(response.data.idiomText)
+            setRandomIdiomRegex(response.data.regexText)
+        }).catch((error) => {
+            console.log(error)
+            setRandomIdiomText('error')
+            setRandomIdiomRegex('error')
+        })
+    }
+
     return (
         <Box
             className='index-page-box'
@@ -66,6 +79,31 @@ export default function SearchPage() {
             }}
         >
             <Typography variant='h3'>Search Page</Typography>
+            <Box
+                display='flex'
+                sx={{
+                    m: 2,
+                    justifyContent: 'center',
+                }}
+            >
+                <TextField
+                    id="random-idiom-text"
+                    label="Random Idiom"
+                    value={randomIdiomText}
+                    slotProps={{
+                        input: { readOnly: true, },
+                    }}
+                />
+                <TextField
+                    id="random-idiom-regex"
+                    label="Regex"
+                    value={randomIdiomRegex}
+                    slotProps={{
+                        input: { readOnly: true, },
+                    }}
+                />
+                <Button variant="contained" onClick={handleFetchRandomIdiom}>Random Idiom</Button>
+            </Box>
             <Box
                 display='flex'
                 sx={{
