@@ -3,6 +3,7 @@ import { useRef, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
 import RandomIdiom from "./RandomIdiom";
+import CorpusSelect from "./CorpusSelect";
 
 export default function SearchPage() {
     const [idiomPattern, setIdiomPattern] = useState("\\bin a nutshell\\b")
@@ -67,6 +68,7 @@ export default function SearchPage() {
         >
             <Typography variant='h3'>Search Page</Typography>
             <RandomIdiom />
+            <CorpusSelect />
             <Box
                 display='flex'
                 sx={{
