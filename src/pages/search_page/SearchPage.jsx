@@ -6,6 +6,9 @@ import RandomIdiom from "./RandomIdiom";
 import CorpusSelect from "./CorpusSelect";
 
 export default function SearchPage() {
+    const [corpusSelectValue, setCorpusSelectValue] = useState(null)
+    const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
+    const [corpusSelectError, setCorpusSelectError] = useState(false)
     const [idiomPattern, setIdiomPattern] = useState("\\bin a nutshell\\b")
     const [idiomMatches, setIdiomMatches] = useState(0)
     const [ searchId, setSearchId] = useState(null)
@@ -14,9 +17,14 @@ export default function SearchPage() {
     const pollingRef = useRef(null)
 
     const handleMatchPatternInCorpus = () => {
+        if (corpusSelectValue == null) {
+            setCorpusSelectError(true)
+            setCorpusSelectHelperText("Must select corpus to search")
+            return
+        }
         const data = {
             "idiom_pattern": idiomPattern,
-            "corpus_id": 1,
+            "corpus_id": corpusSelectValue,
         }
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
             console.log(`Starting search`)
@@ -67,8 +75,18 @@ export default function SearchPage() {
             }}
         >
             <Typography variant='h3'>Search Page</Typography>
+
             <RandomIdiom />
-            <CorpusSelect />
+
+            <CorpusSelect 
+                corpusSelectValue={corpusSelectValue}
+                setCorpusSelectValue={setCorpusSelectValue}
+                corpusSelectHelperText={corpusSelectHelperText}
+                setCorpusSelectHelperText={setCorpusSelectHelperText}
+                corpusSelectError={corpusSelectError}
+                setCorpusSelectError={setCorpusSelectError}
+            />
+
             <Box
                 display='flex'
                 sx={{

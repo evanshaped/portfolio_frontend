@@ -1,12 +1,13 @@
 import { Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormHelperText } from "@mui/material"
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { axiosInstanceIdioms } from "../../services/axiosServices"
 
 
-export default function CorpusSelect() {
-    const [corpusSelectValue, setCorpusSelectValue] = useState(null)
-    const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
-    const [corpusSelectError, setCorpusSelectError] = useState(false)
+export default function CorpusSelect({
+    corpusSelectValue, setCorpusSelectValue,
+    corpusSelectHelperText, setCorpusSelectHelperText,
+    corpusSelectError, setCorpusSelectError,
+}) {
     const [availableCorpora, setAvailableCorpora] = useState([])
 
     useEffect(() => {
