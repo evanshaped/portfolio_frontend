@@ -10,11 +10,11 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
-      '/static/admin': {
+      '^/static/(admin|rest_framework)': {
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
-      '^/.*-api': {
+      '^/(.*-api|api-auth)': {
         target: 'http://localhost:8000',
         changeOrigin: true,
       },

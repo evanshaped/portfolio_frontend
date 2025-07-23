@@ -7,6 +7,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import IndexPage from './pages/IndexPage'
 import Account from './pages/Account'
+import SearchPage from './pages/SearchPage'
 
 function App() {
   return (
@@ -28,17 +29,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/index" element={<IndexPage />} />
+        <Route path="/search" element={<SearchPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/account" element={<Account />} />
       </Routes>
-      <Box>
-        <Typography variant="h1">my text</Typography>
-        <Button>button text</Button>
-      </Box>
-      <Box>
-        <Typography variant="h2">Text here</Typography>
-        <Typography vairant="h3">More text here</Typography>
-      </Box>
     </Box>
   )
 }

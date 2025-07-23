@@ -4,6 +4,7 @@ import { Link } from 'react-router';
 import HomeIcon from '@mui/icons-material/Home';
 import ListIcon from '@mui/icons-material/List';
 import InfoIcon from '@mui/icons-material/Info';
+import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import DeveloperBoardIcon from '@mui/icons-material/DeveloperBoard';
 
@@ -56,6 +57,18 @@ export default function Header() {
                         }}
                         >
                         Index
+                    </Button>
+
+                    <Button
+                        component={Link}
+                        to="/search"
+                        startIcon={<SearchIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        Search
                     </Button>
                 </Box>
                 
