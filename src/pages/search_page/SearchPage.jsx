@@ -1,6 +1,6 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useRef, useState } from "react";
-import { axiosInstanceIdioms } from "../services/axiosServices";
+import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
 
 export default function SearchPage() {

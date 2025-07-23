@@ -7,7 +7,7 @@ import Home from './pages/Home'
 import About from './pages/About'
 import IndexPage from './pages/IndexPage'
 import Account from './pages/Account'
-import SearchPage from './pages/SearchPage'
+import SearchPage from './pages/search_page/SearchPage'
 
 function App() {
   return (
