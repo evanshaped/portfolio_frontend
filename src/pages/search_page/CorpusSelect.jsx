@@ -1,16 +1,33 @@
 import { Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, FormHelperText } from "@mui/material"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
+import { axiosInstanceIdioms } from "../../services/axiosServices"
 
 
 export default function CorpusSelect() {
-    const [corpusValue, setCorpusValue] = useState(null)
-    const [corpusHelperText, setCorpusHelperText] = useState('')
-    const [corpusRadioError, setCorpusRadioError] = useState(false)
+    const [corpusSelectValue, setCorpusSelectValue] = useState(null)
+    const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
+    const [corpusSelectError, setCorpusSelectError] = useState(false)
+    const [availableCorpora, setAvailableCorpora] = useState([])
+
+    useEffect(() => {
+        fetchAvailableCorpora()
+    }, [])
 
     const handleCorpusChange = (event) => {
-        setCorpusValue(event.target.value)
-        setCorpusHelperText('')
-        setCorpusRadioError(false)
+        setCorpusSelectValue(event.target.value)
+        setCorpusSelectHelperText('')
+        setCorpusSelectError(false)
+    }
+
+    const fetchAvailableCorpora = () => {
+        axiosInstanceIdioms.get('corpora/').then((response) => {
+            console.log(`Got corpora from database`, response)
+            setAvailableCorpora(response.data)
+        }).catch((error) => {
+            console.log("Failed to get corpora from database", error)
+            setCorpusSelectError(true)
+            setCorpusSelectHelperText("Failed to get corpora from database")
+        })
     }
 
     return (
@@ -21,19 +38,20 @@ export default function CorpusSelect() {
                 justifyContent: 'start',
             }}
         >
-            <FormControl error={corpusRadioError}>
+            <FormControl error={corpusSelectError}>
                 <FormLabel id="corpus-radio-buttons-group-label">Corpus to search...</FormLabel>
                 <RadioGroup
                     row
                     aria-labelledby="corpus-radio-buttons-group-label"
                     name="corpus-radio-buttons-group"
-                    value={corpusValue}
+                    value={corpusSelectValue}
                     onChange={handleCorpusChange}
                 >
-                    <FormControlLabel value="corpus1" control={<Radio />} label="Corpus 1" />
-                    <FormControlLabel value="corpus2" control={<Radio />} label="Corpus 2" />
+                    {availableCorpora.map(corpus => (
+                        <FormControlLabel value={corpus.id} control={<Radio />} label={corpus.name} />
+                    ))}
                 </RadioGroup>
-                <FormHelperText>{corpusHelperText}</FormHelperText>
+                <FormHelperText>{corpusSelectHelperText}</FormHelperText>
             </FormControl>
         </Box>
     )
