@@ -1,11 +1,17 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { axiosInstanceIdioms } from "../../services/axiosServices"
 import { Box, TextField, Button } from "@mui/material"
 
 
-export default function RandomIdiom() {
-    const [randomIdiomText, setRandomIdiomText] = useState('default')
-    const [randomIdiomRegex, setRandomIdiomRegex] = useState('default')
+export default function RandomIdiom({isCustomIdiom, setPatternToSearch}) {
+    const [randomIdiomText, setRandomIdiomText] = useState('')
+    const [randomIdiomRegex, setRandomIdiomRegex] = useState('')
+
+    useEffect(() => {
+        if (!isCustomIdiom) {
+            setPatternToSearch(randomIdiomRegex)
+        }
+    }, [isCustomIdiom, randomIdiomRegex])
 
     const handleFetchRandomIdiom = () => {
         axiosInstanceIdioms.get('idioms/random/').then((response) => {
@@ -24,13 +30,14 @@ export default function RandomIdiom() {
                 display='flex'
                 sx={{
                     m: 2,
-                    justifyContent: 'center',
+                    justifyContent: 'start',
                 }}
             >
                 <TextField
                     id="random-idiom-text"
                     label="Random Idiom"
                     value={randomIdiomText}
+                    disabled={isCustomIdiom}
                     slotProps={{
                         input: { readOnly: true, },
                     }}
@@ -39,11 +46,12 @@ export default function RandomIdiom() {
                     id="random-idiom-regex"
                     label="Regex"
                     value={randomIdiomRegex}
+                    disabled={isCustomIdiom}
                     slotProps={{
                         input: { readOnly: true, },
                     }}
                 />
-                <Button variant="contained" onClick={handleFetchRandomIdiom}>Random Idiom</Button>
+                <Button variant="contained" disabled={isCustomIdiom} onClick={handleFetchRandomIdiom}>Fetch Random Idiom</Button>
             </Box>
     )
 }

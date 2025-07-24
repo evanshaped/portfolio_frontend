@@ -1,29 +1,44 @@
-import { Box, Button, TextField, Typography } from "@mui/material";
-import { useRef, useState } from "react";
+import { Box, Button, FormControl, FormControlLabel, FormGroup, Switch, TextField, Typography } from "@mui/material";
+import { useEffect, useRef, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
 import RandomIdiom from "./RandomIdiom";
 import CorpusSelect from "./CorpusSelect";
+import CustomPatternField from "./CustomPatternField";
 
 export default function SearchPage() {
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
     const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
     const [corpusSelectError, setCorpusSelectError] = useState(false)
-    const [idiomPattern, setIdiomPattern] = useState("\\bin a nutshell\\b")
+    const [isCustomIdiom, setIsCustomIdiom] = useState(false)
+    const [patternToSearch, setPatternToSearch] = useState("")
+    const [searchErrorText, setSearchErrorText] = useState("")
     const [idiomMatches, setIdiomMatches] = useState(0)
     const [ searchId, setSearchId] = useState(null)
     const [searchStatus, setSearchStatus] = useState()
     const [isPolling, setIsPolling] = useState(false)
     const pollingRef = useRef(null)
 
-    const handleMatchPatternInCorpus = () => {
+    const handleSwitchIdiomSearchType = (event) => {
+        setIsCustomIdiom(event.target.checked)
+    }
+
+    useEffect(() => {
+        setSearchErrorText("")
+    }, [patternToSearch])
+
+    const handleSearchPatternInCorpus = () => {
         if (corpusSelectValue == null) {
             setCorpusSelectError(true)
             setCorpusSelectHelperText("Must select corpus to search")
             return
         }
+        if (patternToSearch == "") {
+            setSearchErrorText("No pattern to match")
+            return
+        }
         const data = {
-            "idiom_pattern": idiomPattern,
+            "idiom_pattern": patternToSearch,
             "corpus_id": corpusSelectValue,
         }
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
@@ -74,10 +89,7 @@ export default function SearchPage() {
                 justifyContent: 'center',
             }}
         >
-            <Typography variant='h3'>Search Page</Typography>
-
-            <RandomIdiom />
-
+            <Typography variant='h4'>Corpora</Typography>
             <CorpusSelect 
                 corpusSelectValue={corpusSelectValue}
                 setCorpusSelectValue={setCorpusSelectValue}
@@ -87,6 +99,21 @@ export default function SearchPage() {
                 setCorpusSelectError={setCorpusSelectError}
             />
 
+            <Typography variant='h4'>Idiom</Typography>
+            <FormGroup>
+                <FormControlLabel control={<Switch />} checked={isCustomIdiom} onChange={handleSwitchIdiomSearchType} label={`Use ${isCustomIdiom? "Custom Idiom" : "Database Idiom"}`} />
+            </FormGroup>
+            <RandomIdiom 
+                isCustomIdiom={isCustomIdiom}
+                setPatternToSearch={setPatternToSearch}
+            />
+            <CustomPatternField
+                isCustomIdiom={isCustomIdiom}
+                setPatternToSearch={setPatternToSearch}
+            />
+
+            <Typography variant='h4'>Matching</Typography>
+            <Typography variant='subtitle2' color="red">{searchErrorText}</Typography>
             <Box
                 display='flex'
                 sx={{
@@ -95,11 +122,11 @@ export default function SearchPage() {
                 }}
             >
                 <TextField
-                    required
-                    id="idiom-pattern"
-                    label="Idiom Pattern"
-                    value={idiomPattern}
-                    onChange={(event) => { setIdiomPattern(event.target.value) }}
+                    id="idiom-pattern-to-match"
+                    label="Pattern being matched"
+                    value={patternToSearch}
+                    error={searchErrorText != ""}
+                    slotProps={{ input: { readOnly: true, }, }}
                 />
                 <TextField
                     id="matches-found"
@@ -109,7 +136,7 @@ export default function SearchPage() {
                 />
                 <Button
                     variant="contained" 
-                    onClick={handleMatchPatternInCorpus}
+                    onClick={handleSearchPatternInCorpus}
                     disabled={isPolling}
                 >
                     {isPolling ? 'Searching...' : 'Match Pattern'}
