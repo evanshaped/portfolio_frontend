@@ -11,13 +11,14 @@ export default function SearchPage() {
     const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
     const [corpusSelectError, setCorpusSelectError] = useState(false)
     const [isCustomIdiom, setIsCustomIdiom] = useState(false)
-    const [patternToSearch, setPatternToSearch] = useState("")
     const [searchErrorText, setSearchErrorText] = useState("")
     const [idiomMatches, setIdiomMatches] = useState(0)
     const [ searchId, setSearchId] = useState(null)
     const [searchStatus, setSearchStatus] = useState()
     const [isPolling, setIsPolling] = useState(false)
     const pollingRef = useRef(null)
+    const [randomIdiom, setRandomIdiom] = useState(null)
+    const [customPattern, setCustomPattern] = useState("\\bin a nutshell\\b")
 
     const handleSwitchIdiomSearchType = (event) => {
         setIsCustomIdiom(event.target.checked)
@@ -25,7 +26,7 @@ export default function SearchPage() {
 
     useEffect(() => {
         setSearchErrorText("")
-    }, [patternToSearch])
+    }, [customPattern, randomIdiom])
 
     const handleSearchPatternInCorpus = () => {
         if (corpusSelectValue == null) {
@@ -33,14 +34,23 @@ export default function SearchPage() {
             setCorpusSelectHelperText("Must select corpus to search")
             return
         }
-        if (patternToSearch == "") {
-            setSearchErrorText("No pattern to match")
-            return
+
+        var data = {"corpus_id": corpusSelectValue}
+        if (isCustomIdiom) {
+            if (customPattern == "") {
+                setSearchErrorText("No pattern to match")
+                return
+            }
+            data = {...data, "custom_regex_pattern": customPattern}
+        } else {
+            if (!randomIdiom) {
+                setSearchErrorText("No idiom chosen")
+                return
+            }
+            data = {...data, "idiom_id": randomIdiom.id}
+            console.log(data)
         }
-        const data = {
-            "idiom_pattern": patternToSearch,
-            "corpus_id": corpusSelectValue,
-        }
+        
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
             console.log(`Starting search`)
             const responseSearchId = response.data.search_id || ""
@@ -105,11 +115,13 @@ export default function SearchPage() {
             </FormGroup>
             <RandomIdiom 
                 isCustomIdiom={isCustomIdiom}
-                setPatternToSearch={setPatternToSearch}
+                randomIdiom={randomIdiom}
+                setRandomIdiom={setRandomIdiom}
             />
             <CustomPatternField
                 isCustomIdiom={isCustomIdiom}
-                setPatternToSearch={setPatternToSearch}
+                customPattern={customPattern}
+                setCustomPattern={setCustomPattern}
             />
 
             <Typography variant='h4'>Matching</Typography>
@@ -122,13 +134,6 @@ export default function SearchPage() {
                 }}
             >
                 <TextField
-                    id="idiom-pattern-to-match"
-                    label="Pattern being matched"
-                    value={patternToSearch}
-                    error={searchErrorText != ""}
-                    slotProps={{ input: { readOnly: true, }, }}
-                />
-                <TextField
                     id="matches-found"
                     label="Matches Found"
                     value={idiomMatches}
@@ -139,7 +144,7 @@ export default function SearchPage() {
                     onClick={handleSearchPatternInCorpus}
                     disabled={isPolling}
                 >
-                    {isPolling ? 'Searching...' : 'Match Pattern'}
+                    {isPolling ? 'Searching...' : (isCustomIdiom ? 'Match Custom Pattern' : 'Match Idiom')}
                 </Button>
             </Box>
             <SearchProgress searchStatus={searchStatus} />

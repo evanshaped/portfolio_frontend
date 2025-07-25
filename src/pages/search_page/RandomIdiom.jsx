@@ -3,25 +3,16 @@ import { axiosInstanceIdioms } from "../../services/axiosServices"
 import { Box, TextField, Button } from "@mui/material"
 
 
-export default function RandomIdiom({isCustomIdiom, setPatternToSearch}) {
-    const [randomIdiomText, setRandomIdiomText] = useState('')
-    const [randomIdiomRegex, setRandomIdiomRegex] = useState('')
-
-    useEffect(() => {
-        if (!isCustomIdiom) {
-            setPatternToSearch(randomIdiomRegex)
-        }
-    }, [isCustomIdiom, randomIdiomRegex])
+export default function RandomIdiom({isCustomIdiom, randomIdiom, setRandomIdiom}) {
+    
 
     const handleFetchRandomIdiom = () => {
         axiosInstanceIdioms.get('idioms/random/').then((response) => {
             console.log(response)
-            setRandomIdiomText(response.data.idiomText)
-            setRandomIdiomRegex(response.data.regexText)
+            setRandomIdiom(response.data)
         }).catch((error) => {
             console.log(error)
-            setRandomIdiomText('error')
-            setRandomIdiomRegex('error')
+            setRandomIdiom(null)
         })
     }
     
@@ -36,7 +27,7 @@ export default function RandomIdiom({isCustomIdiom, setPatternToSearch}) {
                 <TextField
                     id="random-idiom-text"
                     label="Random Idiom"
-                    value={randomIdiomText}
+                    value={randomIdiom ? randomIdiom.text : ''}
                     disabled={isCustomIdiom}
                     slotProps={{
                         input: { readOnly: true, },
@@ -45,7 +36,7 @@ export default function RandomIdiom({isCustomIdiom, setPatternToSearch}) {
                 <TextField
                     id="random-idiom-regex"
                     label="Regex"
-                    value={randomIdiomRegex}
+                    value={randomIdiom ? randomIdiom.regex : ''}
                     disabled={isCustomIdiom}
                     slotProps={{
                         input: { readOnly: true, },
