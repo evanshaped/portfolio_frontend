@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, FormGroup, Switch, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, FormGroup, List, ListItem, ListItemText, Paper, Switch, TextField, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
@@ -14,11 +14,12 @@ export default function SearchPage() {
     const [searchErrorText, setSearchErrorText] = useState("")
     const [idiomMatches, setIdiomMatches] = useState(0)
     const [ searchId, setSearchId] = useState(null)
-    const [searchStatus, setSearchStatus] = useState()
+    const [searchStatus, setSearchStatus] = useState(null)
     const [isPolling, setIsPolling] = useState(false)
     const pollingRef = useRef(null)
     const [randomIdiom, setRandomIdiom] = useState(null)
     const [customPattern, setCustomPattern] = useState("\\bin a nutshell\\b")
+    const [matchesInstances, setMatchesInstances] = useState([])
 
     const handleSwitchIdiomSearchType = (event) => {
         setIsCustomIdiom(event.target.checked)
@@ -50,6 +51,9 @@ export default function SearchPage() {
             data = {...data, "idiom_id": randomIdiom.id}
             console.log(data)
         }
+
+        setSearchStatus(null)
+        setMatchesInstances([])
         
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
             console.log(`Starting search`)
@@ -72,6 +76,14 @@ export default function SearchPage() {
                 
                 setSearchStatus(status)
                 setIdiomMatches(status.total_matches || 0)
+
+                try {
+                    const response = await axiosInstanceIdioms.get(`searchsessions/${searchId}/matches/`)
+                    console.log(response)
+                    setMatchesInstances(response.data)
+                } catch (error) {
+                    console.log(error)
+                }
                 
                 if (!status.is_completed) {
                     pollingRef.current = setTimeout(poll, 500)
@@ -148,6 +160,33 @@ export default function SearchPage() {
                 </Button>
             </Box>
             <SearchProgress searchStatus={searchStatus} />
+            <Box
+                display='flex'
+                sx={{
+                    m: 2,
+                    justifyContent: 'start',
+                }}
+            >
+                <MatchList matchesInstances={matchesInstances} />
+            </Box>
         </Box>
     )
+}
+
+function MatchList({matchesInstances}) {
+    return (
+        <Paper style={{ maxHeight: 300, maxWidth: 1000, overflow: 'auto' }}>
+            <List>
+                {matchesInstances.map(matchInstance => (
+                    <ListItem>
+                        <ListItemText primary={createMatchString(matchInstance)} />
+                    </ListItem>
+                ))}
+            </List>
+        </Paper>
+    );
+}
+
+function createMatchString(matchInstance) {
+    return `${matchInstance.context_before}${matchInstance.match_text}${matchInstance.context_after}`
 }
