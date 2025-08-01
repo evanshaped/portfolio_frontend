@@ -74,7 +74,7 @@ export default function SearchPage() {
                 setIdiomMatches(status.total_matches || 0)
                 
                 if (!status.is_completed) {
-                    pollingRef.current = setTimeout(poll, 50)
+                    pollingRef.current = setTimeout(poll, 500)
                 } else {
                     setIsPolling(false)
                     console.log('Search completed!')
