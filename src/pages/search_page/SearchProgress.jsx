@@ -2,8 +2,6 @@ import { Box, Button, TextField, Typography } from "@mui/material";
 
 export default function SearchProgress({searchStatus}) {
     
-    if (!searchStatus) { return null }
-    
     return (
         <Box sx={{ m: 2 }}>
             <Typography>

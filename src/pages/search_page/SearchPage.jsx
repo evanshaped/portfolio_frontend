@@ -5,8 +5,17 @@ import SearchProgress from "./SearchProgress";
 import RandomIdiom from "./RandomIdiom";
 import CorpusSelect from "./CorpusSelect";
 import CustomPatternField from "./CustomPatternField";
+import MatchList from "./MatchList";
 
 export default function SearchPage() {
+    const defaultSearchStatus = {
+        'is_completed': false,
+        'total_chunks': "0",
+        'completed_chunks': 0,
+        'failed_chunks': 0,
+        'progress': 0,
+        'created_at': '',
+    }
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
     const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
     const [corpusSelectError, setCorpusSelectError] = useState(false)
@@ -14,12 +23,12 @@ export default function SearchPage() {
     const [searchErrorText, setSearchErrorText] = useState("")
     const [idiomMatches, setIdiomMatches] = useState(0)
     const [ searchId, setSearchId] = useState(null)
-    const [searchStatus, setSearchStatus] = useState(null)
+    const [searchStatus, setSearchStatus] = useState(defaultSearchStatus)
+    const [matchIds, setMatchIds] = useState([])
     const [isPolling, setIsPolling] = useState(false)
     const pollingRef = useRef(null)
     const [randomIdiom, setRandomIdiom] = useState(null)
     const [customPattern, setCustomPattern] = useState("\\bin a nutshell\\b")
-    const [matchesInstances, setMatchesInstances] = useState([])
 
     const handleSwitchIdiomSearchType = (event) => {
         setIsCustomIdiom(event.target.checked)
@@ -49,11 +58,11 @@ export default function SearchPage() {
                 return
             }
             data = {...data, "idiom_id": randomIdiom.id}
-            console.log(data)
         }
 
-        setSearchStatus(null)
-        setMatchesInstances([])
+        setSearchStatus(defaultSearchStatus)
+        setIdiomMatches(0)
+        setMatchIds([])
         
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
             console.log(`Starting search`)
@@ -61,28 +70,30 @@ export default function SearchPage() {
             setSearchId(responseSearchId)
             startPolling(responseSearchId)
         }).catch((error) => {
-            console.log(error)
+            console.error(error)
             setSearchId("")
             setIdiomMatches("error")
         })
+    }
+
+    const reduceSearchStatus = (status) => {
+        return Object.keys(defaultSearchStatus).reduce((statusAcc, key) => {
+            return {...statusAcc, [key]: status[key]}
+        }, {})
     }
 
     const startPolling = (searchId) => {
         setIsPolling(true)
         const poll = async() => {
             try {
-                const response = await axiosInstanceIdioms.get(`searchsessions/${searchId}/`)
+                const include_match_ids = true
+                const response = await axiosInstanceIdioms.get(`searchsessions/${searchId}/?include_match_ids=${include_match_ids}`)
                 const status = response.data
                 
-                setSearchStatus(status)
+                setSearchStatus(reduceSearchStatus(status))
                 setIdiomMatches(status.total_matches || 0)
-
-                try {
-                    const response = await axiosInstanceIdioms.get(`searchsessions/${searchId}/matches/`)
-                    console.log(response)
-                    setMatchesInstances(response.data)
-                } catch (error) {
-                    console.log(error)
+                if (include_match_ids) {
+                    setMatchIds(status["match_ids"])
                 }
                 
                 if (!status.is_completed) {
@@ -92,7 +103,7 @@ export default function SearchPage() {
                     console.log('Search completed!')
                 }
             } catch (error) {
-                console.log(error)
+                console.error(error)
                 setIsPolling(false)
             }
         }
@@ -167,26 +178,8 @@ export default function SearchPage() {
                     justifyContent: 'start',
                 }}
             >
-                <MatchList matchesInstances={matchesInstances} />
+                <MatchList matchIds={matchIds} />
             </Box>
         </Box>
     )
-}
-
-function MatchList({matchesInstances}) {
-    return (
-        <Paper style={{ maxHeight: 300, maxWidth: 1000, overflow: 'auto' }}>
-            <List>
-                {matchesInstances.map(matchInstance => (
-                    <ListItem>
-                        <ListItemText primary={createMatchString(matchInstance)} />
-                    </ListItem>
-                ))}
-            </List>
-        </Paper>
-    );
-}
-
-function createMatchString(matchInstance) {
-    return `${matchInstance.context_before}${matchInstance.match_text}${matchInstance.context_after}`
 }
