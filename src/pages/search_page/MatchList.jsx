@@ -21,6 +21,11 @@ export default function MatchList({matchIds: matchIdsUpdated}) {
     }
 
     useEffect(() => {
+        if (matchIdsUpdated.length == 0) {
+            setMatchIdsLocal([])
+            setMatchesInstances([])
+            return
+        }
         const newMatchIds = matchIdsUpdated.filter(idElm => !matchIdsLocal.includes(idElm))
         setMatchIdsLocal(matchIdsUpdated)
         requestNewMatches(newMatchIds)
