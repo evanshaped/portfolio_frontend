@@ -8,6 +8,7 @@ import About from './pages/About'
 import IndexPage from './pages/IndexPage'
 import Account from './pages/Account'
 import SearchPage from './pages/search_page/SearchPage'
+import ChartPage from './pages/search_page/ChartPage'
 
 function App() {
   return (
@@ -27,7 +28,7 @@ function App() {
         <Header />
       </Box>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<ChartPage />} />
         <Route path="/index" element={<IndexPage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/about" element={<About />} />
