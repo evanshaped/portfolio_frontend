@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 
 
-export default function MatchList({matchIds: matchIdsUpdated}) {
+export default function MatchList({matchIds: matchIdsUpdated, listMaxWidth=800}) {
     const [matchIdsLocal, setMatchIdsLocal] = useState([])
     const [matchesInstances, setMatchesInstances] = useState([])
 
@@ -32,10 +32,10 @@ export default function MatchList({matchIds: matchIdsUpdated}) {
     }, [matchIdsUpdated])
     
     return (
-        <Paper style={{ maxHeight: 300, maxWidth: 1000, overflow: 'auto' }}>
+        <Paper style={{ maxHeight: 300, maxWidth: listMaxWidth, overflow: 'auto' }}>
             <List>
-                {matchesInstances.map(matchInstance => (
-                    <ListItem>
+                {matchesInstances.map((matchInstance, index) => (
+                    <ListItem key={index}>
                         <ListItemText primary={createMatchString(matchInstance)} />
                     </ListItem>
                 ))}
@@ -45,5 +45,13 @@ export default function MatchList({matchIds: matchIdsUpdated}) {
 }
 
 function createMatchString(matchInstance) {
-    return `${matchInstance.context_before}${matchInstance.match_text}${matchInstance.context_after}`
+    return (
+        <>
+            {matchInstance.context_before}
+            <strong style={{ fontStyle: 'italic', color: '#1976d2' }}>
+                {matchInstance.match_text}
+            </strong>
+            {matchInstance.context_after}
+        </>
+    )
 }
