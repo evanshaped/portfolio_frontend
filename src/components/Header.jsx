@@ -46,18 +46,6 @@ export default function Header() {
                         >
                         Home
                     </Button>
-                    
-                    <Button
-                        component={Link}
-                        to="/index"
-                        startIcon={<ListIcon />}
-                        sx={{
-                            color: 'text.primary',
-                            fontWeight: 400,
-                        }}
-                        >
-                        Index
-                    </Button>
 
                     <Button
                         component={Link}
