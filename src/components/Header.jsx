@@ -70,6 +70,18 @@ export default function Header() {
                         >
                         Search
                     </Button>
+
+                    <Button
+                        component={Link}
+                        to="/test-chart"
+                        startIcon={<ListIcon />}
+                        sx={{
+                            color: 'text.primary',
+                            fontWeight: 400,
+                        }}
+                        >
+                        Test Chart
+                    </Button>
                 </Box>
                 
                 {/* Right-aligned links */}

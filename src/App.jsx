@@ -30,6 +30,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/index" element={<IndexPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/test-chart" element={<ProgressiveChartDemo />} />
         <Route path="/about" element={<About />} />
         <Route path="/account" element={<Account />} />
       </Routes>
