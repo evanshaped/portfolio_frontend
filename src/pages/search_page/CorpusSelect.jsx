@@ -48,8 +48,8 @@ export default function CorpusSelect({
                     value={corpusSelectValue}
                     onChange={handleCorpusChange}
                 >
-                    {availableCorpora.map(corpus => (
-                        <FormControlLabel value={corpus.id} control={<Radio />} label={corpus.name} />
+                    {availableCorpora.map((corpus, index) => (
+                        <FormControlLabel key={index} value={corpus.id} control={<Radio />} label={corpus.name} />
                     ))}
                 </RadioGroup>
                 <FormHelperText>{corpusSelectHelperText}</FormHelperText>
