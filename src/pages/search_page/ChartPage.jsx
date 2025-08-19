@@ -36,7 +36,7 @@ export default function ChartPage() {
     }
 
     useEffect(() => {
-        setSearchErrorText("")
+        if (searchErrorText != "") { setSearchErrorText("") }
     }, [customPattern, databaseIdiomId])
 
     const handleSearchPatternInCorpus = () => {

@@ -35,7 +35,7 @@ export default function SearchPage() {
     }
 
     useEffect(() => {
-        setSearchErrorText("")
+        if (searchErrorText != "") { setSearchErrorText("") }
     }, [customPattern, databaseIdiomId])
 
     const handleSearchPatternInCorpus = () => {
