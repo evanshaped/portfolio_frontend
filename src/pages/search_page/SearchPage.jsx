@@ -2,10 +2,10 @@ import { Box, Button, FormControl, FormControlLabel, FormGroup, List, ListItem, 
 import { useEffect, useRef, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
-import RandomIdiom from "./RandomIdiom";
 import CorpusSelect from "./CorpusSelect";
 import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
+import IdiomSelect from "./IdiomSelect";
 
 export default function SearchPage() {
     const defaultSearchStatus = {
@@ -27,7 +27,7 @@ export default function SearchPage() {
     const [matchIds, setMatchIds] = useState([])
     const [isPolling, setIsPolling] = useState(false)
     const pollingRef = useRef(null)
-    const [randomIdiom, setRandomIdiom] = useState(null)
+    const [databaseIdiomId, setDatabaseIdiomId] = useState("")
     const [customPattern, setCustomPattern] = useState("\\bin a nutshell\\b")
 
     const handleSwitchIdiomSearchType = (event) => {
@@ -36,7 +36,7 @@ export default function SearchPage() {
 
     useEffect(() => {
         setSearchErrorText("")
-    }, [customPattern, randomIdiom])
+    }, [customPattern, databaseIdiomId])
 
     const handleSearchPatternInCorpus = () => {
         if (corpusSelectValue == null) {
@@ -53,11 +53,11 @@ export default function SearchPage() {
             }
             data = {...data, "custom_regex_pattern": customPattern}
         } else {
-            if (!randomIdiom) {
+            if (!databaseIdiomId) {
                 setSearchErrorText("No idiom chosen")
                 return
             }
-            data = {...data, "idiom_id": randomIdiom.id}
+            data = {...data, "idiom_id": databaseIdiomId}
         }
 
         setSearchStatus(defaultSearchStatus)
@@ -136,10 +136,10 @@ export default function SearchPage() {
             <FormGroup>
                 <FormControlLabel control={<Switch />} checked={isCustomIdiom} onChange={handleSwitchIdiomSearchType} label={`Use ${isCustomIdiom? "Custom Idiom" : "Database Idiom"}`} />
             </FormGroup>
-            <RandomIdiom 
+            <IdiomSelect 
                 isCustomIdiom={isCustomIdiom}
-                randomIdiom={randomIdiom}
-                setRandomIdiom={setRandomIdiom}
+                databaseIdiomId={databaseIdiomId}
+                setDatabaseIdiomId={setDatabaseIdiomId}
             />
             <CustomPatternField
                 isCustomIdiom={isCustomIdiom}
