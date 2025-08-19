@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, FormGroup, List, ListItem, ListItemText, Paper, Switch, TextField, Typography } from "@mui/material";
+import { Box, FormControlLabel, FormGroup, Switch, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
@@ -6,22 +6,16 @@ import CorpusSelect from "./CorpusSelect";
 import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
 import IdiomSelect from "./IdiomSelect";
+import MatchInfo from "./MatchInfo";
+import { defaultMatchInfo, defaultSearchStatus, formatMatchInfo } from "./SearchPageConstants";
 
 export default function SearchPage() {
-    const defaultSearchStatus = {
-        'is_completed': false,
-        'total_chunks': "0",
-        'completed_chunks': 0,
-        'failed_chunks': 0,
-        'progress': 0,
-        'created_at': '',
-    }
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
     const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
     const [corpusSelectError, setCorpusSelectError] = useState(false)
     const [isCustomIdiom, setIsCustomIdiom] = useState(false)
     const [searchErrorText, setSearchErrorText] = useState("")
-    const [idiomMatches, setIdiomMatches] = useState(0)
+    const [matchInfo, setMatchInfo] = useState(defaultMatchInfo)
     const [ searchId, setSearchId] = useState(null)
     const [searchStatus, setSearchStatus] = useState(defaultSearchStatus)
     const [matchIds, setMatchIds] = useState([])
@@ -61,7 +55,7 @@ export default function SearchPage() {
         }
 
         setSearchStatus(defaultSearchStatus)
-        setIdiomMatches(0)
+        setMatchInfo(defaultMatchInfo)
         setMatchIds([])
         
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
@@ -72,7 +66,7 @@ export default function SearchPage() {
         }).catch((error) => {
             console.error(error)
             setSearchId("")
-            setIdiomMatches("error")
+            setMatchInfo({'total_matches': 'error', 'frequency': 'error'})
         })
     }
 
@@ -91,7 +85,7 @@ export default function SearchPage() {
                 const status = response.data
                 
                 setSearchStatus(reduceSearchStatus(status))
-                setIdiomMatches(status.total_matches || 0)
+                setMatchInfo(formatMatchInfo(status))
                 if (include_match_ids) {
                     setMatchIds(status["match_ids"])
                 }
@@ -149,27 +143,12 @@ export default function SearchPage() {
 
             <Typography variant='h4'>Matching</Typography>
             <Typography variant='subtitle2' color="red">{searchErrorText}</Typography>
-            <Box
-                display='flex'
-                sx={{
-                    m: 2,
-                    justifyContent: 'start',
-                }}
-            >
-                <TextField
-                    id="matches-found"
-                    label="Matches Found"
-                    value={idiomMatches}
-                    slotProps={{ input: { readOnly: true, }, }}
-                />
-                <Button
-                    variant="contained" 
-                    onClick={handleSearchPatternInCorpus}
-                    disabled={isPolling}
-                >
-                    {isPolling ? 'Searching...' : (isCustomIdiom ? 'Match Custom Pattern' : 'Match Idiom')}
-                </Button>
-            </Box>
+            <MatchInfo
+                matchInfo={matchInfo}
+                handleSearchPatternInCorpus={handleSearchPatternInCorpus}
+                isPolling={isPolling}
+                isCustomIdiom={isCustomIdiom}
+            />
             <SearchProgress searchStatus={searchStatus} />
             <Box
                 display='flex'

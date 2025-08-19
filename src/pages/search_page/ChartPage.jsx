@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, FormControlLabel, FormGroup, List, ListItem, ListItemText, Paper, Switch, TextField, Typography } from "@mui/material";
+import { Box, FormControlLabel, FormGroup, Switch, Typography } from "@mui/material";
 import { useEffect, useRef, useState } from "react";
 import { axiosInstanceIdioms } from "../../services/axiosServices";
 import SearchProgress from "./SearchProgress";
@@ -7,20 +7,10 @@ import CorpusSelect from "./CorpusSelect";
 import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
 import ChartContainer from "./ProgressiveChart/ChartContainer";
+import MatchInfo from "./MatchInfo";
+import { defaultMatchInfo, defaultSearchStatus, formatMatchInfo } from "./SearchPageConstants";
 
 export default function ChartPage() {
-    const defaultSearchStatus = {
-        'is_completed': false,
-        'total_chunks': "0",
-        'completed_chunks': 0,
-        'failed_chunks': 0,
-        'progress': 0,
-        'created_at': '',
-    }
-    const defaultMatchInfo = {
-        'total_matches': 0,
-        'frequency': 0.0000,
-    }
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
     const [corpusSelectHelperText, setCorpusSelectHelperText] = useState('')
     const [corpusSelectError, setCorpusSelectError] = useState(false)
@@ -96,11 +86,7 @@ export default function ChartPage() {
                 const status = response.data
                 
                 setSearchStatus(reduceSearchStatus(status))
-                const newMatchInfo = {
-                    'total_matches': status.total_matches || 0,
-                    'frequency': status.frequency || 0.0000,
-                }
-                setMatchInfo(newMatchInfo)
+                setMatchInfo(formatMatchInfo(status))
                 if (include_match_ids) {
                     setMatchIds(status["match_ids"])
                 }
@@ -169,35 +155,12 @@ export default function ChartPage() {
 
                 <Typography variant='h4'>Matching</Typography>
                 <Typography variant='subtitle2' color="red">{searchErrorText}</Typography>
-                <Box
-                    display='flex'
-                    sx={{
-                        m: 2,
-                        justifyContent: 'start',
-                    }}
-                >
-                    <TextField
-                        id="matches-found"
-                        label="Matches Found"
-                        value={matchInfo.total_matches}
-                        slotProps={{ input: { readOnly: true, }, }}
-                        sx = {{ 'maxWidth': 120, }}
-                    />
-                    <TextField
-                        id="frequency"
-                        label="Frequency"
-                        value={matchInfo.frequency}
-                        slotProps={{ input: { readOnly: true, }, }}
-                        sx = {{ 'maxWidth': 120, }}
-                    />
-                    <Button
-                        variant="contained" 
-                        onClick={handleSearchPatternInCorpus}
-                        disabled={isPolling}
-                    >
-                        {isPolling ? 'Searching...' : (isCustomIdiom ? 'Match Custom Pattern' : 'Match Idiom')}
-                    </Button>
-                </Box>
+                <MatchInfo
+                    matchInfo={matchInfo}
+                    handleSearchPatternInCorpus={handleSearchPatternInCorpus}
+                    isPolling={isPolling}
+                    isCustomIdiom={isCustomIdiom}
+                />
                 <SearchProgress searchStatus={searchStatus} />
                 <Box
                     display='flex'
