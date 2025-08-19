@@ -49,7 +49,7 @@ export default function CorpusSelect({
                     onChange={handleCorpusChange}
                 >
                     {availableCorpora.map((corpus, index) => (
-                        <FormControlLabel key={index} value={corpus.id} control={<Radio />} label={corpus.name} />
+                        <FormControlLabel key={index} value={corpus.id} control={<Radio />} label={`${corpus.name} (${(corpus.total_word_count/1000000).toFixed(1)}M)`} />
                     ))}
                 </RadioGroup>
                 <FormHelperText>{corpusSelectHelperText}</FormHelperText>
