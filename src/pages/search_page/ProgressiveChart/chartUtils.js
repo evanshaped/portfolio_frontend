@@ -66,7 +66,7 @@ const darkenColor = (color, percent) => {
  * @param {Array} corporaResults - Array of corpus search results
  * @returns {Object} Formatted chart data
  */
-export const formatChartData = (corporaResults) => {
+export const formatChartDataDemo = (corporaResults) => {
     if (!corporaResults || corporaResults.length === 0) {
         return {
             labels: [],
@@ -112,5 +112,48 @@ export const formatChartData = (corporaResults) => {
         rawData,
         colors,
         borderColors
+    };
+};
+
+const formatDataWithErrorBars = (frequency, frequency_sigma) => {
+    return {
+        x: parseFloat(frequency),
+        xMin: parseFloat(frequency) - parseFloat(frequency_sigma),
+        xMax: parseFloat(frequency) + parseFloat(frequency_sigma),
+    }
+}
+
+export const formatChartDataSingleMatchInfo = (matchInfo) => {
+    if (!matchInfo || matchInfo.frequency == 'error' || matchInfo.total_word_count == 'error') {
+        return {
+            labels: [],
+            frequencies: [],
+            searchedWordCounts: [],
+            totalMatches: [],
+            colors: [],
+            borderColors: [],
+        };
+    }
+
+    const labels = [];
+    const frequencies = [];
+    const searchedWordCounts = [];
+    const totalMatches = [];
+
+    labels.push(`${matchInfo.corpus_name} (${(matchInfo.total_word_count/1000000).toFixed(1)}M)`)
+    frequencies.push(matchInfo.frequency)
+    // frequencies.push(formatDataWithErrorBars(matchInfo.frequency, matchInfo.frequency_sigma))
+    searchedWordCounts.push(matchInfo.searched_word_count)
+    totalMatches.push(matchInfo.total_matches)
+    
+    const { colors, borderColors } = generateChartColors(1);
+    
+    return {
+        labels,
+        frequencies,
+        searchedWordCounts,
+        totalMatches,
+        colors,
+        borderColors,
     };
 };

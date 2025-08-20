@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, Typography } from '@mui/material';
 import ChartContainer from './ProgressiveChart/ChartContainer';
-import { formatChartData } from './ProgressiveChart/chartUtils';
+import { formatChartDataDemo } from './ProgressiveChart/chartUtils';
 
 export default function ProgressiveChartDemo() {
     const initialData = [
@@ -11,7 +11,7 @@ export default function ProgressiveChartDemo() {
         { id: 4, name: 'Shakespeare', wordCount: 5000000, matches: 0, isLoading: false },
     ];
     
-    const [chartData, setChartData] = useState(formatChartData(initialData));
+    const [chartData, setChartData] = useState(formatChartDataDemo(initialData));
     const [searchPattern] = useState("\\bin a nutshell\\b");
 
     const handleUpdateData = () => {
@@ -21,7 +21,7 @@ export default function ProgressiveChartDemo() {
             matches: 5
         }));
         
-        setChartData(formatChartData(updatedData));
+        setChartData(formatChartDataDemo(updatedData));
     };
 
     return (
@@ -41,7 +41,6 @@ export default function ProgressiveChartDemo() {
             {chartData && (
                 <ChartContainer
                     chartData={chartData}
-                    searchPattern={searchPattern}
                     title="Idiom-Corpora Histogram"
                 />
             )}

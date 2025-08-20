@@ -7,7 +7,7 @@ import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
 import IdiomSelect from "./IdiomSelect";
 import MatchInfo from "./MatchInfo";
-import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatMatchInfo } from "./SearchPageConstants";
+import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatUpdatedMatchInfo } from "./SearchPageConstants";
 
 export default function SearchPage() {
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
@@ -54,9 +54,7 @@ export default function SearchPage() {
             data = {...data, "idiom_id": databaseIdiomId}
         }
 
-        setSearchStatus(defaultSearchStatus)
-        setMatchInfo(defaultMatchInfo)
-        setMatchIds([])
+        resetDisplayDefaults()
         
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
             console.log(`Starting search`)
@@ -68,6 +66,12 @@ export default function SearchPage() {
             setSearchId("")
             setMatchInfo(errorMatchInfo)
         })
+    }
+
+    const resetDisplayDefaults = () => {
+        setSearchStatus(defaultSearchStatus)
+        setMatchInfo(defaultMatchInfo)
+        setMatchIds([])
     }
 
     const reduceSearchStatus = (status) => {
@@ -85,7 +89,7 @@ export default function SearchPage() {
                 const status = response.data
                 
                 setSearchStatus(reduceSearchStatus(status))
-                setMatchInfo(formatMatchInfo(status))
+                setMatchInfo(formatUpdatedMatchInfo(status))
                 if (include_match_ids) {
                     setMatchIds(status["match_ids"])
                 }

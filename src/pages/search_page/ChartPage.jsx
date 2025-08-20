@@ -8,7 +8,8 @@ import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
 import ChartContainer from "./ProgressiveChart/ChartContainer";
 import MatchInfo from "./MatchInfo";
-import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatMatchInfo } from "./SearchPageConstants";
+import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatUpdatedMatchInfo } from "./SearchPageConstants";
+import { formatChartDataSingleMatchInfo } from "./ProgressiveChart/chartUtils";
 
 export default function ChartPage() {
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
@@ -24,6 +25,7 @@ export default function ChartPage() {
     const pollingRef = useRef(null)
     const [databaseIdiomId, setDatabaseIdiomId] = useState("")
     const [customPattern, setCustomPattern] = useState("\\bin a nutshell\\b")
+    const [chartData, setChartData] = useState(null)
 
     const handleSwitchIdiomSearchType = (event) => {
         setIsCustomIdiom(event.target.checked)
@@ -55,9 +57,7 @@ export default function ChartPage() {
             data = {...data, "idiom_id": databaseIdiomId}
         }
 
-        setSearchStatus(defaultSearchStatus)
-        setMatchInfo(defaultMatchInfo)
-        setMatchIds([])
+        resetDisplayDefaults()
         
         axiosInstanceIdioms.post('start_search/', data).then((response) => {
             console.log(`Starting search`)
@@ -68,7 +68,15 @@ export default function ChartPage() {
             console.error(error)
             setSearchId("")
             setMatchInfo(errorMatchInfo)
+            setChartData(null)
         })
+    }
+
+    const resetDisplayDefaults = () => {
+        setSearchStatus(defaultSearchStatus)
+        setMatchInfo(defaultMatchInfo)
+        setMatchIds([])
+        setChartData(null)
     }
 
     const reduceSearchStatus = (status) => {
@@ -86,7 +94,9 @@ export default function ChartPage() {
                 const status = response.data
                 
                 setSearchStatus(reduceSearchStatus(status))
-                setMatchInfo(formatMatchInfo(status))
+                const updatedMatchInfo = formatUpdatedMatchInfo(status)
+                setMatchInfo(updatedMatchInfo)
+                setChartData(formatChartDataSingleMatchInfo(updatedMatchInfo))
                 if (include_match_ids) {
                     setMatchIds(status["match_ids"])
                 }
@@ -173,7 +183,7 @@ export default function ChartPage() {
                 </Box>
             </Box>
             <Box
-                className='search-parameters'
+                className='search-chart'
                 sx={{
                     flex: 1,
                     p: 2,
@@ -183,7 +193,9 @@ export default function ChartPage() {
                     justifyContent: 'center',
                 }}
             >
-                <ChartContainer />
+                <ChartContainer 
+                    chartData={chartData}
+                />
             </Box>
         </Box>
     )

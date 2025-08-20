@@ -31,7 +31,7 @@ export default function ProgressiveBarChart({
         responsive: true,
         maintainAspectRatio: false,
         animation: {
-            duration: 1000,
+            duration: 400,
             easing: 'easeInOutQuart',
         },
         plugins: {
@@ -79,20 +79,17 @@ export default function ProgressiveBarChart({
         },
     }), []);
 
-    const chartData = useMemo(() => {
-        return ({
-            labels: data.labels || [],
-            datasets: [
-                {
-                    data: data.frequencies || [],
-                    backgroundColor: data.colors || [],
-                    borderColor: data.borderColors || [],
-                    borderWidth: 1,
-                    rawData: data.rawData || [],
-                }
-            ]
-        })
-    }, [data])
+    const chartData = {
+        labels: data.labels || [],
+        datasets: [
+            {
+                data: data.frequencies || [],
+                backgroundColor: data.colors || [],
+                borderColor: data.borderColors || [],
+                borderWidth: 1,
+            }
+        ]
+    }
 
     return (
         <Box sx={{ position: 'relative', height: '400px', width: '100%' }}>

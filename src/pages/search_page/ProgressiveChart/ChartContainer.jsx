@@ -4,7 +4,6 @@ import ProgressiveBarChart from "./ProgressiveBarChart";
 
 export default function ChartContainer({ 
     chartData, 
-    searchPattern = "N/A",
     title = "Idiom-Corpora Histogram"
 }) {
 
@@ -20,7 +19,6 @@ export default function ChartContainer({
         >
             <ChartHeader
                 title={title}
-                searchPattern={searchPattern}
             />
             
             <Box sx={{ mt: 2 }}>
