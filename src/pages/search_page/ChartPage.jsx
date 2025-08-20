@@ -8,7 +8,7 @@ import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
 import ChartContainer from "./ProgressiveChart/ChartContainer";
 import MatchInfo from "./MatchInfo";
-import { defaultMatchInfo, defaultSearchStatus, formatMatchInfo } from "./SearchPageConstants";
+import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatMatchInfo } from "./SearchPageConstants";
 
 export default function ChartPage() {
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
@@ -67,7 +67,7 @@ export default function ChartPage() {
         }).catch((error) => {
             console.error(error)
             setSearchId("")
-            setMatchInfo({'total_matches': 'error', 'frequency': 'error'})
+            setMatchInfo(errorMatchInfo)
         })
     }
 

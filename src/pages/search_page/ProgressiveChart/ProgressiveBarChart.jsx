@@ -10,6 +10,7 @@ import {
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { Box, CircularProgress } from '@mui/material';
+import { frequencyScalingFactor } from '../SearchPageConstants';
 
 ChartJS.register(
     CategoryScale,
@@ -60,7 +61,7 @@ export default function ProgressiveBarChart({
                 beginAtZero: true,
                 title: {
                     display: true,
-                    text: 'Frequency (per 10,000 words)'
+                    text: `Frequency (per ${frequencyScalingFactor.toLocaleString('en-US')} words)`
                 },
                 grid: {
                     color: 'rgba(0, 0, 0, 0.1)',

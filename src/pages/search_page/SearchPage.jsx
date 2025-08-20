@@ -7,7 +7,7 @@ import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
 import IdiomSelect from "./IdiomSelect";
 import MatchInfo from "./MatchInfo";
-import { defaultMatchInfo, defaultSearchStatus, formatMatchInfo } from "./SearchPageConstants";
+import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatMatchInfo } from "./SearchPageConstants";
 
 export default function SearchPage() {
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
@@ -66,7 +66,7 @@ export default function SearchPage() {
         }).catch((error) => {
             console.error(error)
             setSearchId("")
-            setMatchInfo({'total_matches': 'error', 'frequency': 'error'})
+            setMatchInfo(errorMatchInfo)
         })
     }
 

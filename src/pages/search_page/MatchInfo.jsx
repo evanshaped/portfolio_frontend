@@ -1,4 +1,5 @@
 import { Box, TextField, Button } from "@mui/material";
+import { frequencyScalingFactor } from "./SearchPageConstants";
 
 
 export default function MatchInfo({ matchInfo, handleSearchPatternInCorpus, isPolling, isCustomIdiom }) {
@@ -15,13 +16,15 @@ export default function MatchInfo({ matchInfo, handleSearchPatternInCorpus, isPo
                 label="Matches Found"
                 value={matchInfo.total_matches}
                 slotProps={{ input: { readOnly: true, }, }}
-                sx={{ 'maxWidth': 120, }} />
+                sx={{ 'maxWidth': 120, }} 
+            />
             <TextField
                 id="frequency"
-                label="Frequency"
-                value={matchInfo.frequency}
+                label={`Frequency (per ${frequencyScalingFactor.toLocaleString('en-US')} words)`}
+                value={`${matchInfo.frequency} ± ${matchInfo.frequency_sigma}`}
                 slotProps={{ input: { readOnly: true, }, }}
-                sx={{ 'maxWidth': 120, }} />
+                sx={{ 'maxWidth': 210, }} 
+            />
             <Button
                 variant="contained"
                 onClick={handleSearchPatternInCorpus}
