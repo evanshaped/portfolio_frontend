@@ -172,15 +172,6 @@ export default function ChartPage() {
                     isCustomIdiom={isCustomIdiom}
                 />
                 <SearchProgress searchStatus={searchStatus} />
-                <Box
-                    display='flex'
-                    sx={{
-                        m: 2,
-                        justifyContent: 'start',
-                    }}
-                >
-                    <MatchList matchIds={matchIds} />
-                </Box>
             </Box>
             <Box
                 className='search-chart'
@@ -196,6 +187,15 @@ export default function ChartPage() {
                 <SearchChartContainer 
                     chartData={chartData}
                 />
+                <Box
+                    display='flex'
+                    sx={{
+                        m: 2,
+                        justifyContent: 'start',
+                    }}
+                >
+                    <MatchList matchIds={matchIds} />
+                </Box>
             </Box>
         </Box>
     )

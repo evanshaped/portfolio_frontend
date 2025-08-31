@@ -14,7 +14,6 @@ export default function SearchChartContainer({
                 p: 3, 
                 mt: 2, 
                 borderRadius: 2,
-                minHeight: '500px'
             }}
         >
             <SearchChartHeader
@@ -33,7 +32,7 @@ export default function SearchChartContainer({
                             display: 'flex', 
                             justifyContent: 'center', 
                             alignItems: 'center', 
-                            height: '400px',
+                            height: '300px',
                             color: 'text.secondary'
                         }}
                     >
