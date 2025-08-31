@@ -62,7 +62,7 @@ export default function Header() {
                 
                 {/* Right-aligned links */}
                 <Box>
-                    <Button
+                    {/* <Button
                         component={Link}
                         to="/about"
                         startIcon={<InfoIcon />}
@@ -84,7 +84,7 @@ export default function Header() {
                         }}
                         >
                         Account
-                    </Button>
+                    </Button> */}
 
                     <Button
                         component="a"
