@@ -9,7 +9,6 @@ import IndexPage from './pages/IndexPage'
 import Account from './pages/Account'
 import SearchPage from './pages/search_page/SearchPage'
 import ChartPage from './pages/search_page/ChartPage'
-import ProgressiveChartDemo from './pages/search_page/ProgressiveChartDemo'
 
 function App() {
   return (
@@ -31,7 +30,6 @@ function App() {
       <Routes>
         <Route path="/" element={<ChartPage />} />
         <Route path="/search" element={<SearchPage />} />
-        <Route path="/test-chart" element={<ProgressiveChartDemo />} />
         <Route path="/about" element={<About />} />
         <Route path="/account" element={<Account />} />
       </Routes>
