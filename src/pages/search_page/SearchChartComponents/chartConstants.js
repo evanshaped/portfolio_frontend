@@ -1,0 +1,52 @@
+import { frequencyScalingFactor } from '../SearchPageConstants';
+
+export const chartOptions = {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    animation: {
+        duration: 400,
+        easing: 'easeInOutQuart',
+    },
+    plugins: {
+        legend: {
+            display: false,
+        },
+        // tooltip: {
+        //     callbacks: {
+        //         label: function(context) {
+        //             const dataPoint = context.parsed;
+        //             const rawData = context.dataset.rawData?.[context.dataIndex];
+        //             if (!rawData) return '';
+        //             return [
+        //                 `Frequency: ${dataPoint.x.toFixed(3)} per 10,000 words`,
+        //                 `Matches: ${rawData.matches}`,
+        //                 `Words scanned: ${rawData.wordsScanned?.toLocaleString() || 'Unknown'}`,
+        //                 rawData.isLoading ? 'Status: Loading...' : 'Status: Complete'
+        //             ];
+        //         }
+        //     }
+        // }
+    },
+    scales: {
+        x: {
+            beginAtZero: true,
+            title: {
+                display: true,
+                text: `Frequency (per ${frequencyScalingFactor.toLocaleString('en-US')} words)`
+            },
+            grid: {
+                color: 'rgba(0, 0, 0, 0.1)',
+            },
+        },
+        y: {
+            title: {
+                display: true,
+                text: 'Corpus (word count)'
+            },
+            grid: {
+                display: false,
+            }
+        }
+    },
+};
