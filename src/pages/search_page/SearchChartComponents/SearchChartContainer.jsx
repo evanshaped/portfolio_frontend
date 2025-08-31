@@ -1,5 +1,4 @@
-import { Box, Paper } from "@mui/material";
-import SearchChartHeader from "./SearchChartHeader";
+import { Box, Paper, Typography } from "@mui/material";
 import SearchChart from "./SearchChart";
 
 export default function SearchChartContainer({ 
@@ -14,12 +13,20 @@ export default function SearchChartContainer({
                 p: 3, 
                 mt: 2, 
                 borderRadius: 2,
-                minHeight: '500px'
             }}
         >
-            <SearchChartHeader
-                title={title}
-            />
+            <Box sx={{ mb: 2, textAlign: 'center' }}>
+                <Typography variant="h4" component="h2" sx={{ mb: 1 }}>
+                    {"Pattern-Corpus Search Results"}
+                </Typography>
+                {/* {searchPattern && (
+                    <Typography variant="subtitle1" color="text.secondary" sx={{ mb: 1 }}>
+                        Pattern: <code style={{ backgroundColor: '#f5f5f5', padding: '2px 4px', borderRadius: '4px' }}>
+                            {searchPattern}
+                        </code>
+                    </Typography>
+                )} */}
+            </Box>
             
             <Box sx={{ mt: 2 }}>
                 {chartData && chartData.labels && chartData.labels.length > 0 ? (
@@ -33,7 +40,7 @@ export default function SearchChartContainer({
                             display: 'flex', 
                             justifyContent: 'center', 
                             alignItems: 'center', 
-                            height: '400px',
+                            height: '300px',
                             color: 'text.secondary'
                         }}
                     >

@@ -9,7 +9,7 @@ export default function CustomPatternField({isCustomIdiom, customPattern, setCus
         <Box>
             <Box
                 sx={{
-                    display: 'inline-block',
+                    display: 'flex',
                     m: 2,
                     p: 1,
                     borderStyle: 'solid',
@@ -20,6 +20,9 @@ export default function CustomPatternField({isCustomIdiom, customPattern, setCus
             >
                 <TextField
                     id="idiom-pattern"
+                    sx = {{
+                        flex: 1,
+                    }}
                     label="Custom Pattern"
                     value={customPattern}
                     disabled={!isCustomIdiom}

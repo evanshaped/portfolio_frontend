@@ -47,7 +47,7 @@ export default function Header() {
                         Home
                     </Button>
 
-                    <Button
+                    {/* <Button
                         component={Link}
                         to="/search"
                         startIcon={<SearchIcon />}
@@ -57,7 +57,7 @@ export default function Header() {
                         }}
                         >
                         Search
-                    </Button>
+                    </Button> */}
                 </Box>
                 
                 {/* Right-aligned links */}

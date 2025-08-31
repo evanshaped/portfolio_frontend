@@ -63,7 +63,7 @@ export default function SearchChart({
     }, [data.frequencies])
 
     return (
-        <Box sx={{ position: 'relative', height: '400px', width: '100%' }}>
+        <Box sx={{ position: 'relative', height: '300px', width: '100%' }}>
             <canvas ref={canvasRef} />
             
             {/* {data.rawData?.map((corpus, index) => (
