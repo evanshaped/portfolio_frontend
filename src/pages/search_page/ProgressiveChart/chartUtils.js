@@ -141,8 +141,8 @@ export const formatChartDataSingleMatchInfo = (matchInfo) => {
     const totalMatches = [];
 
     labels.push(`${matchInfo.corpus_name} (${(matchInfo.total_word_count/1000000).toFixed(1)}M)`)
-    frequencies.push(matchInfo.frequency)
-    // frequencies.push(formatDataWithErrorBars(matchInfo.frequency, matchInfo.frequency_sigma))
+    // frequencies.push(matchInfo.frequency)
+    frequencies.push(formatDataWithErrorBars(matchInfo.frequency, matchInfo.frequency_sigma))
     searchedWordCounts.push(matchInfo.searched_word_count)
     totalMatches.push(matchInfo.total_matches)
     

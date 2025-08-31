@@ -1,6 +1,6 @@
-import React, { useRef, useMemo } from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 import {
-    Chart as ChartJS,
+    Chart,
     CategoryScale,
     LinearScale,
     BarElement,
@@ -8,14 +8,16 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import { Bar } from 'react-chartjs-2';
+import { BarWithErrorBarsController, BarWithErrorBar } from 'chartjs-chart-error-bars';
 import { Box, CircularProgress } from '@mui/material';
 import { frequencyScalingFactor } from '../SearchPageConstants';
 
-ChartJS.register(
+Chart.register(
     CategoryScale,
     LinearScale,
     BarElement,
+    BarWithErrorBarsController,
+    BarWithErrorBar,
     Title,
     Tooltip,
     Legend
@@ -24,7 +26,8 @@ ChartJS.register(
 export default function ProgressiveBarChart({ 
     data, 
 }) {
-    const chartRef = useRef();
+    const canvasRef = useRef(null);
+    const chartRef = useRef(null);
 
     const options = useMemo(() => ({
         indexAxis: 'y',
@@ -79,7 +82,7 @@ export default function ProgressiveBarChart({
         },
     }), []);
 
-    const chartData = {
+    const chartData = useMemo(() => ({
         labels: data.labels || [],
         datasets: [
             {
@@ -89,11 +92,29 @@ export default function ProgressiveBarChart({
                 borderWidth: 1,
             }
         ]
-    }
+    }), [data]);
+
+    useEffect(() => {
+        const ctx = canvasRef.current.getContext('2d');
+        chartRef.current = new Chart(ctx, {
+            type: 'barWithErrorBars',
+            data: chartData,
+            options: options,
+        });
+
+        return () => chartRef.current.destroy();
+    }, [])
+
+    useEffect(() => {
+        if (chartRef.current) {
+            chartRef.current.data = chartData;
+            chartRef.current.update('active');
+        }
+    }, [chartData])
 
     return (
         <Box sx={{ position: 'relative', height: '400px', width: '100%' }}>
-            <Bar ref={chartRef} data={chartData} options={options} />
+            <canvas ref={canvasRef} />
             
             {/* {data.rawData?.map((corpus, index) => (
                 corpus.isLoading && (
