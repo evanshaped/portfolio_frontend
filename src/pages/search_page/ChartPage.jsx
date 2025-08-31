@@ -6,7 +6,7 @@ import IdiomSelect from "./IdiomSelect";
 import CorpusSelect from "./CorpusSelect";
 import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
-import ChartContainer from "./ProgressiveChart/ChartContainer";
+import SearchChartContainer from "./ProgressiveChart/SearchChartContainer";
 import MatchInfo from "./MatchInfo";
 import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatUpdatedMatchInfo } from "./SearchPageConstants";
 import { formatChartDataSingleMatchInfo } from "./ProgressiveChart/chartUtils";
@@ -193,7 +193,7 @@ export default function ChartPage() {
                     justifyContent: 'center',
                 }}
             >
-                <ChartContainer 
+                <SearchChartContainer 
                     chartData={chartData}
                 />
             </Box>

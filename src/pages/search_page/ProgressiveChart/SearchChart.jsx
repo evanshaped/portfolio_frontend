@@ -23,7 +23,7 @@ Chart.register(
     Legend
 );
 
-export default function ProgressiveBarChart({ 
+export default function SearchChart({ 
     data, 
 }) {
     const canvasRef = useRef(null);

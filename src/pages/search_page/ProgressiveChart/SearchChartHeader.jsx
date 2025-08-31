@@ -1,6 +1,6 @@
 import { Typography, Box } from "@mui/material";
 
-export default function ChartHeader({ title }) {
+export default function SearchChartHeader({ title }) {
     return (
         <Box sx={{ mb: 2, textAlign: 'center' }}>
             <Typography variant="h4" component="h2" sx={{ mb: 1 }}>

@@ -1,8 +1,8 @@
 import { Box, Paper } from "@mui/material";
-import ChartHeader from "./ChartHeader";
-import ProgressiveBarChart from "./ProgressiveBarChart";
+import SearchChartHeader from "./SearchChartHeader";
+import SearchChart from "./SearchChart";
 
-export default function ChartContainer({ 
+export default function SearchChartContainer({ 
     chartData, 
     title = "Idiom-Corpora Histogram"
 }) {
@@ -17,13 +17,13 @@ export default function ChartContainer({
                 minHeight: '500px'
             }}
         >
-            <ChartHeader
+            <SearchChartHeader
                 title={title}
             />
             
             <Box sx={{ mt: 2 }}>
                 {chartData && chartData.labels && chartData.labels.length > 0 ? (
-                    <ProgressiveBarChart
+                    <SearchChart
                         data={chartData}
                         animationDuration={800}
                     />
