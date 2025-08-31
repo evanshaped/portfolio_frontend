@@ -82,7 +82,7 @@ export default function ProgressiveBarChart({
         },
     }), []);
 
-    const chartData = useMemo(() => ({
+    const chartData = {
         labels: data.labels || [],
         datasets: [
             {
@@ -92,8 +92,9 @@ export default function ProgressiveBarChart({
                 borderWidth: 1,
             }
         ]
-    }), [data]);
+    }
 
+    // Initialize chart
     useEffect(() => {
         const ctx = canvasRef.current.getContext('2d');
         chartRef.current = new Chart(ctx, {
@@ -105,12 +106,13 @@ export default function ProgressiveBarChart({
         return () => chartRef.current.destroy();
     }, [])
 
+    // Update chart data
     useEffect(() => {
         if (chartRef.current) {
-            chartRef.current.data = chartData;
-            chartRef.current.update('active');
+            chartRef.current.data.datasets[0].data = data.frequencies;
+            chartRef.current.update();
         }
-    }, [chartData])
+    }, [data.frequencies])
 
     return (
         <Box sx={{ position: 'relative', height: '400px', width: '100%' }}>
