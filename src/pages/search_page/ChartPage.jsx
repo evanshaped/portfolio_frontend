@@ -6,10 +6,10 @@ import IdiomSelect from "./IdiomSelect";
 import CorpusSelect from "./CorpusSelect";
 import CustomPatternField from "./CustomPatternField";
 import MatchList from "./MatchList";
-import SearchChartContainer from "./ProgressiveChart/SearchChartContainer";
+import SearchChartContainer from "./SearchChartComponents/SearchChartContainer";
 import MatchInfo from "./MatchInfo";
 import { defaultMatchInfo, defaultSearchStatus, errorMatchInfo, formatUpdatedMatchInfo } from "./SearchPageConstants";
-import { formatChartDataSingleMatchInfo } from "./ProgressiveChart/chartUtils";
+import { formatChartDataSingleMatchInfo } from "./SearchChartComponents/chartUtils";
 
 export default function ChartPage() {
     const [corpusSelectValue, setCorpusSelectValue] = useState(null)
